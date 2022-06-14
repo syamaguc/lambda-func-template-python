@@ -2,7 +2,6 @@ import os
 import requests
 import json
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
 import random
 
 
@@ -24,13 +23,15 @@ def setup_chrome():
     UA = user_agent[random.randrange(0, len(user_agent), 1)]
     options.add_argument("--user-agent=" + UA)
     dl_path = '/tmp/downloads'
+    os.makedirs(dl_path, exist_ok=True)
     options.add_experimental_option(
         "prefs",
         {"download.default_directory": dl_path,
             "download.prompt_for_download": False},
     )
     options.binary_location = '/opt/chrome/chrome'
-    chrome = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    chrome = webdriver.Chrome("/opt/chromedriver",
+                              options=options)
     chrome.implicitly_wait(10)
     return chrome
 
