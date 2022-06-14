@@ -1,7 +1,6 @@
 from utils import post_slack, post_chatwork, setup_chrome
 import os
 import logging
-import json
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
