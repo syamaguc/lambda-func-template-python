@@ -1,0 +1,29 @@
+service: lambda-func-template
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'prod'}
+  region: ap-northeast-1
+  logRetentionInDays: 7
+  ecr:
+    images:
+      app-img:
+        path: ./app
+        platform: linux/amd64
+
+functions:
+  sample-app:
+    timeout: 9
+    memorySize: 512
+    maximumEventAge: 9
+    maximumRetryAttempts: 0
+    image:
+      name: app-img
+      command:
+        - app.lambda_handler
+    environment:
+      SLACK_WEB_HOOK_URL: ${env:SLACK_WEB_HOOK_URL, ''}
+      CW_ROOM_ID: ${env:CW_ROOM_ID, ''}
+      CW_API_KEY: ${env:CW_API_KEY, ''}
