@@ -17,7 +17,7 @@ functions:
   sample-app:
     timeout: 9
     memorySize: 512
-    maximumEventAge: 9
+    maximumEventAge: 60
     maximumRetryAttempts: 0
     image:
       name: app-img
