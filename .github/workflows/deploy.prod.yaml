@@ -3,7 +3,8 @@ name: serverless-deploy-prod
 on:
   push:
     branches:
-      - main
+      - fuga
+      # - main
 
 jobs:
   deploy:

@@ -1,13 +1,23 @@
 version: "3.6"
 
 services:
-  api-image:
-    container_name: app-image
+  python-app:
+    container_name: python-app
     build:
-      context: ./app
+      context: ./python-app
     volumes:
       - $HOME/.aws/:/root/.aws/
     ports:
       - "9000:8080"
+    env_file:
+      - .env
+  node-app:
+    container_name: node-app
+    build:
+      context: ./node-app
+    volumes:
+      - $HOME/.aws/:/root/.aws/
+    ports:
+      - "9090:8080"
     env_file:
       - .env

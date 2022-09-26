@@ -9,20 +9,37 @@ provider:
   logRetentionInDays: 7
   ecr:
     images:
-      app-img:
-        path: ./app
+      python-img:
+        path: ./python-app
+        platform: linux/amd64
+      node-img:
+        path: ./node-app
         platform: linux/amd64
 
+
 functions:
-  sample-app:
+  python-app:
+    timeout: 18
+    memorySize: 512
+    maximumEventAge: 60
+    maximumRetryAttempts: 0
+    image:
+      name: python-img
+      command:
+        - app.lambda_handler
+    environment:
+      SLACK_WEB_HOOK_URL: ${env:SLACK_WEB_HOOK_URL, ''}
+      CW_ROOM_ID: ${env:CW_ROOM_ID, ''}
+      CW_API_KEY: ${env:CW_API_KEY, ''}
+  node-app:
     timeout: 9
     memorySize: 512
     maximumEventAge: 60
     maximumRetryAttempts: 0
     image:
-      name: app-img
+      name: node-img
       command:
-        - app.lambda_handler
+        - index.lambda_handler
     environment:
       SLACK_WEB_HOOK_URL: ${env:SLACK_WEB_HOOK_URL, ''}
       CW_ROOM_ID: ${env:CW_ROOM_ID, ''}

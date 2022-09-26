@@ -3,7 +3,8 @@ name: serverless-deploy-dev
 on:
   push:
     branches:
-      - dev
+      - hoge
+        # - dev
 
 jobs:
   deploy:
