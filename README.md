@@ -1,1 +1,1 @@
-# lambda-func-template
+# lambda-func-template-python

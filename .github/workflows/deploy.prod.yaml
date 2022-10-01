@@ -29,7 +29,7 @@ jobs:
         aws-region: ap-northeast-1
 
     - name: deploy
-      run: sls deploy
+      run: sls deploy --stage prod
       env:
         SLACK_WEB_HOOK_URL: ${{ secrets.SLACK_WEB_HOOK_URL }}
         CW_ROOM_ID: ${{ secrets.CW_ROOM_ID }}

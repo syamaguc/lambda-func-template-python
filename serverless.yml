@@ -1,4 +1,4 @@
-service: lambda-func-template
+service: lambda-func-template-python
 
 frameworkVersion: '3'
 
@@ -12,10 +12,6 @@ provider:
       python-img:
         path: ./python-app
         platform: linux/amd64
-      node-img:
-        path: ./node-app
-        platform: linux/amd64
-
 
 functions:
   python-app:
@@ -31,16 +27,4 @@ functions:
       SLACK_WEB_HOOK_URL: ${env:SLACK_WEB_HOOK_URL, ''}
       CW_ROOM_ID: ${env:CW_ROOM_ID, ''}
       CW_API_KEY: ${env:CW_API_KEY, ''}
-  node-app:
-    timeout: 9
-    memorySize: 512
-    maximumEventAge: 60
-    maximumRetryAttempts: 0
-    image:
-      name: node-img
-      command:
-        - index.lambda_handler
-    environment:
-      SLACK_WEB_HOOK_URL: ${env:SLACK_WEB_HOOK_URL, ''}
-      CW_ROOM_ID: ${env:CW_ROOM_ID, ''}
-      CW_API_KEY: ${env:CW_API_KEY, ''}
+      STAGE: ${opt:stage, 'prod'}
