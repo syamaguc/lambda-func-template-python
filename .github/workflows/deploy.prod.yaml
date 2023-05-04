@@ -3,7 +3,7 @@ name: serverless-deploy-prod
 on:
   push:
     branches:
-      - fuga
+      - main
       # - main
 
 jobs:
@@ -11,28 +11,27 @@ jobs:
     name: deploy
     runs-on: ubuntu-latest
     steps:
+      - name: setup node.js
+        uses: actions/setup-node@v3
 
-    - name: setup node.js
-      uses: actions/setup-node@v3
+      - name: install sls
+        run: npm i -g serverless
 
-    - name: install sls
-      run: npm i -g serverless
+      - name: checkout
+        uses: actions/checkout@v1
 
-    - name: checkout
-      uses: actions/checkout@v1
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
 
-    - name: configure aws credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ap-northeast-1
-
-    - name: deploy
-      run: sls deploy --stage prod
-      env:
-        SLACK_WEB_HOOK_URL: ${{ secrets.SLACK_WEB_HOOK_URL }}
-        CW_ROOM_ID: ${{ secrets.CW_ROOM_ID }}
-        CW_API_KEY: ${{ secrets.CW_API_KEY }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PASSWORD: ${{ secrets.PASSWORD }}
+      - name: deploy
+        run: sls deploy --stage prod
+        env:
+          SLACK_WEB_HOOK_URL: ${{ secrets.SLACK_WEB_HOOK_URL }}
+          CW_ROOM_ID: ${{ secrets.CW_ROOM_ID }}
+          CW_API_KEY: ${{ secrets.CW_API_KEY }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
