@@ -1,4 +1,4 @@
-version: "3.6"
+version: '3.6'
 
 services:
   python-app:
@@ -8,6 +8,8 @@ services:
     volumes:
       - $HOME/.aws/:/root/.aws/
     ports:
-      - "9000:8080"
+      - '9000:8080'
     env_file:
       - .env
+    command:
+      - app.lambda_handler

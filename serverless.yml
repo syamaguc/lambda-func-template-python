@@ -28,3 +28,17 @@ functions:
       CW_ROOM_ID: ${env:CW_ROOM_ID, ''}
       CW_API_KEY: ${env:CW_API_KEY, ''}
       STAGE: ${opt:stage, 'prod'}
+  sub_dir-app:
+    timeout: 18
+    memorySize: 512
+    maximumEventAge: 60
+    maximumRetryAttempts: 0
+    image:
+      name: python-img
+      command:
+        - sub_dir/app.lambda_handler
+    environment:
+      SLACK_WEB_HOOK_URL: ${env:SLACK_WEB_HOOK_URL, ''}
+      CW_ROOM_ID: ${env:CW_ROOM_ID, ''}
+      CW_API_KEY: ${env:CW_API_KEY, ''}
+      STAGE: ${opt:stage, 'prod'}
