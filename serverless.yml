@@ -14,7 +14,7 @@ provider:
         platform: linux/amd64
 
 functions:
-  python-app:
+  func_b:
     timeout: 18
     memorySize: 512
     maximumEventAge: 60
@@ -22,13 +22,13 @@ functions:
     image:
       name: python-img
       command:
-        - app.lambda_handler
+        - func_b/app.lambda_handler
     environment:
       SLACK_WEB_HOOK_URL: ${env:SLACK_WEB_HOOK_URL, ''}
       CW_ROOM_ID: ${env:CW_ROOM_ID, ''}
       CW_API_KEY: ${env:CW_API_KEY, ''}
       STAGE: ${opt:stage, 'prod'}
-  sub_dir-app:
+  func_a:
     timeout: 18
     memorySize: 512
     maximumEventAge: 60
@@ -36,7 +36,7 @@ functions:
     image:
       name: python-img
       command:
-        - sub_dir/app.lambda_handler
+        - func_a/app.lambda_handler
     environment:
       SLACK_WEB_HOOK_URL: ${env:SLACK_WEB_HOOK_URL, ''}
       CW_ROOM_ID: ${env:CW_ROOM_ID, ''}

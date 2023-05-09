@@ -1,8 +1,11 @@
 import logging
 import os
+import sys
 
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+from common.utils import setup_chrome
 from selenium.webdriver.common.by import By
-from utils import post_chatwork, post_slack, setup_chrome
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
