@@ -3,7 +3,7 @@ name: serverless-deploy-prod
 on:
   push:
     branches:
-      - main
+      - hoge
       # - main
 
 jobs:

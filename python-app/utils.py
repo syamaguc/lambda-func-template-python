@@ -1,14 +1,18 @@
-import os
-import requests
 import json
-from selenium import webdriver
+import os
 import random
 
+import requests
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 
+
+# https://stackoverflow.com/questions/76428561/typeerror-webdriver-init-got-multiple-values-for-argument-options
 def setup_chrome():
+    service = Service(executable_path=r"/opt/chromedriver")
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
-    options.add_argument('--no-sandbox')
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920x1080")
     options.add_argument("--single-process")
@@ -22,36 +26,39 @@ def setup_chrome():
     ]
     UA = user_agent[random.randrange(0, len(user_agent), 1)]
     options.add_argument("--user-agent=" + UA)
-    dl_path = '/tmp/downloads'
+    dl_path = "/tmp/downloads"
     os.makedirs(dl_path, exist_ok=True)
     options.add_experimental_option(
         "prefs",
-        {"download.default_directory": dl_path,
-            "download.prompt_for_download": False},
+        {"download.default_directory": dl_path, "download.prompt_for_download": False},
     )
-    options.binary_location = '/opt/chrome/chrome'
-    chrome = webdriver.Chrome("/opt/chromedriver",
-                              options=options)
+    options.binary_location = "/opt/chrome/chrome"
+    chrome = webdriver.Chrome(service=service, options=options)
     chrome.implicitly_wait(10)
     return chrome
 
 
 def post_chatwork(msg):
-    apiurl = 'https://api.chatwork.com/v2'
-    roomid = os.environ['CW_ROOM_ID']
-    apikey = os.environ['CW_API_KEY']
-    post_message_url = f'{apiurl}/rooms/{roomid}/messages'
-    headers = {'X-ChatWorkToken': apikey}
-    params = {'body': msg}
+    apiurl = "https://api.chatwork.com/v2"
+    roomid = os.environ["CW_ROOM_ID"]
+    apikey = os.environ["CW_API_KEY"]
+    post_message_url = f"{apiurl}/rooms/{roomid}/messages"
+    headers = {"X-ChatWorkToken": apikey}
+    params = {"body": msg}
     return requests.post(post_message_url, headers=headers, params=params)
 
 
 def post_slack(msg):
-    SLACK_WEB_HOOK_URL = os.environ['SLACK_WEB_HOOK_URL']
+    SLACK_WEB_HOOK_URL = os.environ["SLACK_WEB_HOOK_URL"]
 
-    requests.post(SLACK_WEB_HOOK_URL, data=json.dumps({
-        'text': msg,
-        'username': 'lambda-notification',
-        'icon_emoji': ':smile_cat:',
-        'link_names': 1,
-    }))
+    requests.post(
+        SLACK_WEB_HOOK_URL,
+        data=json.dumps(
+            {
+                "text": msg,
+                "username": "lambda-notification",
+                "icon_emoji": ":smile_cat:",
+                "link_names": 1,
+            }
+        ),
+    )

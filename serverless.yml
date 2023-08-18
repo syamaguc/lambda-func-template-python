@@ -1,6 +1,6 @@
 service: lambda-func-template-python
 
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 provider:
   name: aws
@@ -14,7 +14,7 @@ provider:
         platform: linux/amd64
 
 functions:
-  func_b:
+  sample_function:
     timeout: 18
     memorySize: 512
     maximumEventAge: 60
@@ -22,21 +22,8 @@ functions:
     image:
       name: python-img
       command:
-        - func_b/app.lambda_handler
-    environment:
-      SLACK_WEB_HOOK_URL: ${env:SLACK_WEB_HOOK_URL, ''}
-      CW_ROOM_ID: ${env:CW_ROOM_ID, ''}
-      CW_API_KEY: ${env:CW_API_KEY, ''}
-      STAGE: ${opt:stage, 'prod'}
-  func_a:
-    timeout: 18
-    memorySize: 512
-    maximumEventAge: 60
-    maximumRetryAttempts: 0
-    image:
-      name: python-img
-      command:
-        - func_a/app.lambda_handler
+        # - sub/app.lambda_handler
+        - app.lambda_handler
     environment:
       SLACK_WEB_HOOK_URL: ${env:SLACK_WEB_HOOK_URL, ''}
       CW_ROOM_ID: ${env:CW_ROOM_ID, ''}
